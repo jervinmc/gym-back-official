@@ -42,6 +42,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     barangay=models.CharField(_('barangay'),max_length=255,blank=True,null=True)
     email=models.CharField(_('email'),max_length=255,unique=True,null=True)
     is_active=models.BooleanField(_('is_active'),default=True)
+    is_month_access=models.BooleanField(_('is_month_access'),default=True)
+    is_half_month_access=models.BooleanField(_('is_half_month_access'),default=True)
     account_type=models.CharField(_('account_type'),max_length=255,blank=True,default="Client")
     # image = models.ImageField(
     #     _('image'), upload_to=nameFile, default="uploads/users_placeholder.png")
