@@ -82,6 +82,13 @@ class Signup(generics.GenericAPIView):
         serializers.save()
         return Response(status=status.HTTP_200_OK,data=serializers.data)
 
+class GetUser(generics.GenericAPIView):
+    permission_classes = (permissions.AllowAny, )
+    def post(self,request):
+        instances = User.objects.filter(email=request.data.get('email'))
+        serializer_response = GetUserSerializer(instances, many=True)
+        return Response(status=status.HTTP_200_OK,data=serializer_response.data)
+
 
 
 class GetUserView(generics.GenericAPIView):
