@@ -19,6 +19,18 @@ class BookView(viewsets.ModelViewSet):
     permission_classes = (permissions.AllowAny, )
     serializer_class=BookSerializer
 
+    def list(self,request):
+        instances = Book.objects.all()
+        serializer_response = BookSerializer(instances, many=True)
+        print(serializer_response.data)
+        for x in serializer_response.data:
+            user_instance = User.objects.filter(id = x['user_id'])
+            user_serializer_response = GetUserSerializer(user_instance, many = True)
+            print(user_instance)
+            x['firstname'] = user_serializer_response.data[0]['firstname']
+            x['lastname'] = user_serializer_response.data[0]['lastname']
+        return Response(data = serializer_response.data)
+
 
 
 class CheckBook(generics.GenericAPIView):

@@ -19,6 +19,18 @@ class TransactionView(viewsets.ModelViewSet):
     queryset=Transaction.objects.all()
     permission_classes = (permissions.AllowAny, )
     serializer_class=TransactionSerializer
+    
+    def list(self,request):
+        instances = Transaction.objects.all()
+        serializer_response = TransactionSerializer(instances, many=True)
+        print(serializer_response.data)
+        for x in serializer_response.data:
+            user_instance = User.objects.filter(id = x['user_id'])
+            user_serializer_response = TransactionSerializer(user_instance, many = True)
+            print(user_instance)
+            x['firstname'] = user_serializer_response.data[0]['firstname']
+            x['lastname'] = user_serializer_response.data[0]['lastname']
+        return Response(data = serializer_response.data)
 
 
 class TransactionNotif(generics.GenericAPIView):
@@ -28,14 +40,13 @@ class TransactionNotif(generics.GenericAPIView):
         try:
             conn = http.client.HTTPSConnection("api.itexmo.com")
             payload = json.dumps({
-            "Email": "jmacalawapersonal@gmail.com",
-            "Password": "wew123WEW",
+            "Email": "jmacalawa.work@gmail.com",
+            "Password": "wew123WEW ",
             "Recipients": [
-                # f"{res.get('contact_number')}"
                 "09056949242"
             ],
             "Message": "Your Order with COD request is accepted, now we are preparing to ship your order Thank you!",
-            "ApiCode": "TR-JERVI771273_W0L8V",
+            "ApiCode": "TR-JERVI801969_5IY78",
             "SenderId": "ITEXMO SMS"
             })
             headers = {
@@ -44,9 +55,14 @@ class TransactionNotif(generics.GenericAPIView):
             conn.request("POST", "/api/broadcast", payload, headers)
             res = conn.getresponse()
             data = res.read()
-            print(data)
+            print(data.decode("utf-8"))
 
-            # api_code = "TR-JERVI771273_W0L8V"
+            # if response.status_code == requests.codes.ok:
+            #     print('Message sent successfully!')
+            # else:
+            #     print(f'Error sending message: {response.text}')
+
+            # api_code = "TR-JERVI801969_5IY78"
 
             # # Replace 09xxxxxxxxx with the recipient's mobile number
             # mobile_number = "09056949242"
@@ -56,10 +72,10 @@ class TransactionNotif(generics.GenericAPIView):
 
             # # Send SMS
             # response = requests.get(f"https://www.itexmo.com/php_api/api.php?apikey={api_code}&number={mobile_number}&message={message}")
-            # print(data.decode("utf-8"))
-            # serializers = NotificationSerializer(data={"user_id":res.get('user_id'),"descriptions":res.get('descriptions'),"image":res.get('image'),"viewed":"no"})
-            # serializers.is_valid(raise_exception=True)
-            # serializers.save()
+            # # print(response.decode("utf-8"))
+            # # serializers = NotificationSerializer(data={"user_id":res.get('user_id'),"descriptions":res.get('descriptions'),"image":res.get('image'),"viewed":"no"})
+            # # serializers.is_valid(raise_exception=True)
+            # # serializers.save()
             # print(response.text)
             # pusher_client.trigger('notif', 'my-test', {'message': f'Item status : {res.get("status")}','user_id':res.get("user_id")})
         except Exception as e:
