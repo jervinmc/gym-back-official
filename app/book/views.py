@@ -27,8 +27,11 @@ class BookView(viewsets.ModelViewSet):
             user_instance = User.objects.filter(id = x['user_id'])
             user_serializer_response = GetUserSerializer(user_instance, many = True)
             print(user_instance)
-            x['firstname'] = user_serializer_response.data[0].get('firstname','Anonymous')
-            x['lastname'] = user_serializer_response.data[0].get('firstname','Anonymous')
+            if(len(user_serializer_response.data)==0):
+                pass
+            else:
+                x['firstname'] = user_serializer_response.data[0]['firstname']
+                x['lastname'] = user_serializer_response.data[0]['lastname']
         return Response(data = serializer_response.data)
 
 
