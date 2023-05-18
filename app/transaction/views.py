@@ -29,7 +29,6 @@ class TransactionView(viewsets.ModelViewSet):
         for x in serializer_response.data:
             user_instance = User.objects.filter(id = x['user_id']) 
             user_serializer_response = GetUserSerializer(user_instance, many = True)
-            print(user_serializer_response.data[0])
             x['firstname'] = user_serializer_response.data[0].get('firstname')
             x['lastname'] = user_serializer_response.data[0].get('lastname')
         
