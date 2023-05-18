@@ -5,7 +5,7 @@ from django.urls.conf import include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from users.views import Login,GetUserView,Signup,GetUser
-from transaction.views import TransactionNotif
+from transaction.views import TransactionNotif,TransactionAllByUser
 from book.views import CheckBook
 from rest_framework import permissions
 from rest_framework_simplejwt.views import (
@@ -19,6 +19,7 @@ path('api/v1/admin/', admin.site.urls),
     path('api/v1/signup/', Signup.as_view(), name='Sign up'),
     path('api/v1/auth/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/v1/auth/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/v1/transaction-user/', TransactionAllByUser.as_view(), name='token_refresh'),
     path('api/v1/auth/user/', GetUserView.as_view(), name='auth_data'),
     path('api/v1/login/', Login.as_view(), name='token_refresh'),
     path('api/v1/check-book/', CheckBook.as_view(), name='token_refresh'),
