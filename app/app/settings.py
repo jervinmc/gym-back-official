@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'exercise',
     'product',
     'transaction',
+    'attendance',
     'book',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',

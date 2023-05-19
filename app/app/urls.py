@@ -7,6 +7,7 @@ from drf_yasg import openapi
 from users.views import Login,GetUserView,Signup,GetUser
 from transaction.views import TransactionNotif,TransactionAllByUser
 from book.views import CheckBook
+from attendance.views import AttendanceView
 from rest_framework import permissions
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
@@ -27,6 +28,7 @@ path('api/v1/admin/', admin.site.urls),
     path('api/v1/transaction-notif/', TransactionNotif.as_view(), name='token_refresh'),
     path('api/v1/users/', include('users.urls')),
     path('api/v1/transaction/', include('transaction.urls')),
+    path('api/v1/attendance/', include('attendance.urls')),
     path('api/v1/book/', include('book.urls')),
     path('api/v1/product/', include('product.urls')),
     path('api/v1/exercise/', include('exercise.urls')),
