@@ -60,6 +60,18 @@ class VerifyUser(generics.GenericAPIView):
         User.objects.filter(email=email).update(is_verified=True)
         return Response()
 
+class InquireView(generics.GenericAPIView):
+    permission_classes = (permissions.AllowAny, )
+    def post(self,request):
+        res = request.data
+        
+        message = get_template('quote.html').render({"fullname":res.get('fullname'),"message":res.get('message'),"contact_number":res.get('contact_number'),"product_name":res.get('product_name'),"email":res.get('email'),"address":res.get('address')})
+        msg = EmailMultiAlternatives('Quote', message,'rrglassandaluminum00@gmail.com', ['jmacalawapersonal@gmail.com'])
+        html_content = f'<p></p>'
+        msg.content_subtype = "html"
+        msg.send()
+        return Response()
+
 
 
 class ResetPassword(generics.GenericAPIView):

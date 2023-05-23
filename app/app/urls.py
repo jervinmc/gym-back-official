@@ -4,7 +4,7 @@ from django.urls import path
 from django.urls.conf import include
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-from users.views import Login,GetUserView,Signup,GetUser
+from users.views import Login,GetUserView,Signup,GetUser,InquireView
 from transaction.views import TransactionNotif,TransactionAllByUser
 from book.views import CheckBook
 from attendance.views import AttendanceView
@@ -24,6 +24,7 @@ path('api/v1/admin/', admin.site.urls),
     path('api/v1/auth/user/', GetUserView.as_view(), name='auth_data'),
     path('api/v1/login/', Login.as_view(), name='token_refresh'),
     path('api/v1/check-book/', CheckBook.as_view(), name='token_refresh'),
+    path('api/v1/inquire/', InquireView.as_view(), name='token_refresh'),
     path('api/v1/get-user/', GetUser.as_view(), name='token_refresh'),
     path('api/v1/transaction-notif/', TransactionNotif.as_view(), name='token_refresh'),
     path('api/v1/users/', include('users.urls')),
